@@ -1,0 +1,52 @@
+<template>
+<div>
+  <h1>EventTest组件</h1>
+  <!-- 原生DOM绑定系统事件 -->
+  <button @click="handler">原生DOM绑定原生事件</button>
+  <!-- Event1组件:Event1非原生DOM节点，而绑定的click事件非原生DOM事件，而是自定义事件
+    @click.native，可以把自定义事件变为原生DOM事件
+    当前原生DOMclick事件，其实时给组件的根节点绑定了单击事件---利用到事件委派
+   -->
+  <Event1 @click.native="handler1"></Event1>
+  <!-- 下面的写法是给原生DOM绑定自定义事件 
+    给原生DOM绑定自定义事件没有意义，因为无法触发$emit函数
+  -->
+  <button @xxx="handler2">原生DOM绑定自定义事件</button>
+  <!-- 组件标签 -->
+  <Event2 @click="handler3" @xxx="handler3"></Event2>
+</div>
+</template>
+
+<script>
+import Event1 from './Event1.vue'
+import Event2 from './Event2.vue'
+export default {
+  name:'EventTest',
+  components:{
+    Event1,
+    Event2
+  },
+  methods: {
+    // 原生DOMbutton的事件回调
+    handler(event){
+      console.log('原生DOM的单击事件',event)
+    },
+    // Event1组件的事件回调
+    handler1(){
+      console.log('event组件的事件')
+    },
+    // 原生DOM绑定自定义事件的回调
+    handler2(){
+      console.log('DOMbutton的自定义事件')
+    },
+    // Event2自定义事件的回调
+    handler3(params){
+      console.log('Event2自定义事件的回调',params)
+    },
+  },
+}
+</script>
+
+<style>
+
+</style>
